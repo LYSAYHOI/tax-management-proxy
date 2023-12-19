@@ -54,13 +54,12 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    with:
-      environment: 'prod'
-      env:
-        PROJECT_ID: ${{ vars.GCP_PROJECT_ID }} # TODO: update Google Cloud project id
-        SERVICE: ${{ vars.GCP_APP_NAME }} # TODO: update Cloud Run service name
-        REGION: ${{ vars.GCP_REGION }} # TODO: update Cloud Run service region
-        IMAGE_NAME: gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_APP_NAME }}
+    environment: 'prod'
+    env:
+      PROJECT_ID: ${{ vars.GCP_PROJECT_ID }} # TODO: update Google Cloud project id
+      SERVICE: ${{ vars.GCP_APP_NAME }} # TODO: update Cloud Run service name
+      REGION: ${{ vars.GCP_REGION }} # TODO: update Cloud Run service region
+      IMAGE_NAME: gcr.io/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_APP_NAME }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
