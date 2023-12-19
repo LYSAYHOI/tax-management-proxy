@@ -22,6 +22,15 @@ proxy.on('error', (err, req, res) => {
     res.end('Proxy error');
 });
 
+const enableCors = function (proxyRes) {
+    proxyRes.headers['access-control-allow-methods'] = "GET,POST,PUT,DELETE,OPTIONS";
+    proxyRes.headers['Access-Control-Allow-Origin'] = "*";
+};
+
+proxy.on("proxyRes", function (proxyRes, req, res) {
+    enableCors(proxyRes);
+});
+
 server.listen(8080, () => {
     console.log('Proxy server is running on http://localhost:8080');
 });
