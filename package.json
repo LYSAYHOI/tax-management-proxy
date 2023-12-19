@@ -1,0 +1,10 @@
+{
+  "name": "tax-management-proxy",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1"
+  }
+}
