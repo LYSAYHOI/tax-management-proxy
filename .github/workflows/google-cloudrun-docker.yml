@@ -60,7 +60,8 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-
+    with:
+      environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
