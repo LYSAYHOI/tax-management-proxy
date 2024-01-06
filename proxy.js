@@ -11,7 +11,17 @@ const proxy = httpProxy.createProxyServer({
 });
 
 const server = http.createServer((req, res) => {
-    proxy.web(req, res, { target: 'https://hoadondientu.gdt.gov.vn:30000' });
+    if (req.method === 'OPTIONS') {
+        enableCors(req, res);
+        res.writeHead(200);
+        res.end();
+        return;
+    }
+    proxy.web(req, res, {
+        target: 'https://hoadondientu.gdt.gov.vn:30000',
+        secure: true,
+        changeOrigin: true
+    });
 });
 
 proxy.on('error', (err, req, res) => {
@@ -22,13 +32,23 @@ proxy.on('error', (err, req, res) => {
     res.end('Proxy error');
 });
 
-const enableCors = function (proxyRes) {
-    proxyRes.headers['access-control-allow-methods'] = "GET,POST,PUT,DELETE,OPTIONS";
-    proxyRes.headers['Access-Control-Allow-Origin'] = "*";
+const enableCors = (req, res) => {
+    if (req.headers['access-control-request-method']) {
+        res.setHeader('access-control-allow-methods', req.headers['access-control-request-method']);
+    }
+
+    if (req.headers['access-control-request-headers']) {
+        res.setHeader('access-control-allow-headers', req.headers['access-control-request-headers']);
+    }
+
+    if (req.headers.origin) {
+        res.setHeader('access-control-allow-origin', req.headers.origin);
+        res.setHeader('access-control-allow-credentials', 'true');
+    }
 };
 
 proxy.on("proxyRes", function (proxyRes, req, res) {
-    enableCors(proxyRes);
+    enableCors(req, res);
 });
 
 server.listen(8080, () => {
